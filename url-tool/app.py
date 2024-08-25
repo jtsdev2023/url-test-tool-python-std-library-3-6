@@ -6,11 +6,13 @@ This module is used to run the URL test tool.
 """
 
 
-from . import argparse_module
+import argparse_module
 
 
 def main():
     """Docstring"""
+    args = argparse_module.parser.parse_args()
+    print(args)
 
 
 if __name__ == '__main__':
