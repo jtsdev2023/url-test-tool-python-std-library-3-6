@@ -17,17 +17,32 @@ import urllib.error
 def validate_url_format(input_url):
     """Validate URL format"""
     # regex pattern for URL
-    url_pattern_http = re.compile(r'^http://[\w\W]+')
-    url_pattern_https = re.compile(r'^https://')
+    url_pattern_http = re.compile(r'^http://[\w\W]+\.[\w\W]+/?[\w\W]*')
+    url_pattern_https = re.compile(r'^https://[\w\W]+\.[\w\W]+/?[\w\W]*')
+    url_pattern = re.compile(r'^https?://[\w\W]+\.[\w\W]+/?[\w\W]*')
+
+    scheme_pattern = re.compile(r'^https?://')
+    domain_pattern = re.compile(r'[\w\W]+\.[\w\W]+/?')
+
+    url_split_pattern = re.compile(r'/{1,2}')
 
     # does this add any security from remote code execution?
     _url = str( input_url ).strip()
 
-    if url_pattern_http.match(_url) or url_pattern_https.match(_url):
-        return _url
+    # at the moment, i don't think i want to process http and https separately
+    # subject to change
+    # if url_pattern_http.match(_url):
+    #     pass
+    # elif url_pattern_https.match(_url):
+    #     pass
+    if url_pattern.match(_url):
+        # _scheme = scheme_pattern.match(_url).group()
+        # _domain = domain_pattern.search(_url).group()
+        _scheme, _domain = url_split_pattern.split(_url)[0:2]
+        return _url, _scheme.strip(':'), _domain
     else:
         print(f"Error: URL {_url} is not in the correct format.")
-        return None
+        return None, None, None
 
 
 # get ICANN/IANA TLD list
