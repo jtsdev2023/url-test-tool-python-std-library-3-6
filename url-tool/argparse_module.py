@@ -31,7 +31,7 @@ exclude_group_url_inline_file = parser.add_mutually_exclusive_group(required=Tru
 exclude_group_url_inline_file.add_argument(
     '-u', '--url', type=str, nargs='+', help='URLs to test', action=URLMaxNargs)
 exclude_group_url_inline_file.add_argument(
-    '-f', '--file', type=str, help='File containing URLs to test')
+    '-f', '--file', type=str, help='File containing URLs to test. Limit 1 file name.')
 
 # normal arguments
 parser.add_argument('-i', '--interval', type=int, help='Interval in seconds between tests')
@@ -41,3 +41,7 @@ parser.add_argument('-t', '--threading', action='store_true',
                     help='Use threading to GET URLs. Implies "-s/--suppress". '\
                         ' Default is serial mode.'
 )
+
+
+if __name__ == '__main__':
+    pass

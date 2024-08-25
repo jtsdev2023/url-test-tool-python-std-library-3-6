@@ -4,5 +4,5 @@
   need to add some logic to enforce this?
   e.g., if input more than 6 URLs on the CLI,
   print argparse help/usage message.
-- lorem ipsum
+  - COMPLETE: implemented using argparse custom action
 
