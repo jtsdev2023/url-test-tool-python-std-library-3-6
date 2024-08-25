@@ -21,17 +21,21 @@ def validate_url_format(input_url):
     url_pattern_https = re.compile(r'^https://')
 
     # does this add any security from remote code execution?
-    _url = input_url.to_string().strip()
+    _url = str( input_url ).strip()
 
     if url_pattern_http.match(_url) or url_pattern_https.match(_url):
         return _url
+    else:
+        print(f"Error: URL {_url} is not in the correct format.")
+        return None
 
 
-# get IANA/ICANN TLD list
+# get ICANN/IANA TLD list
 class IANATopLevelDomain:
     """Class to handle ICANN/IANA top level domain (TLD) list tasks"""
     def __init__(self):
         self._url = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt'
+        self._url_data = None
         self._tld_list = []
         self._tld_list_file = 'tld_list.txt'
 
@@ -39,7 +43,12 @@ class IANATopLevelDomain:
         """Retrieve TLD list"""
         try:
             with request.urlopen(self._url) as response:
+                self._url_data = response.read().decode('utf-8')
                 self._tld_list = response.read().decode('utf-8').splitlines()
+        except urllib.error.HTTPError as e:
+            print(f"HTTP Error: {e}")
+        except urllib.error.URLError as e:
+            print(f"URL Error: {e}")
         except Exception as e:
             print(f"Error: {e}")
         else:
@@ -47,7 +56,24 @@ class IANATopLevelDomain:
 
     def write_tld_list(self):
         """Write TLD list to file"""
-        with open(self._tld_list_file, 'w', encoding='utf-8') as file:
-            for line in self._tld_list:
-                file.write(f"{line}\n")
-        return self._tld_list_file
+        if self._url_data is not None:
+            with open(self._tld_list_file, 'w', encoding='utf-8') as file:
+                for line in self._tld_list:
+                    file.write(f"{line}\n")
+            return self._tld_list_file
+        if self._url_data is None:
+            print("Error: No IANA Top Level Domain (TLD) data to write to file.")
+
+
+# get URL
+def request_url(input_url):
+    """Request URL"""
+    try:
+        with request.urlopen(input_url) as response:
+            return response.read().decode('utf-8')
+    except urllib.error.HTTPError as e:
+        print(f"HTTP Error: {e}")
+    except urllib.error.URLError as e:
+        print(f"URL Error: {e}")
+    except Exception as e:
+        print(f"Error: {e}")
