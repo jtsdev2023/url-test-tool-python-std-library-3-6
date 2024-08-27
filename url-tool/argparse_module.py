@@ -34,13 +34,14 @@ exclude_group_url_inline_file.add_argument(
     '-f', '--file', type=str, help='File containing URLs to test. Limit 1 file name.')
 
 # normal arguments
-parser.add_argument('-i', '--interval', type=int, help='Interval in seconds between tests')
-parser.add_argument('-c', '--count', type=int, help='Number of times to HTTP GET the URLs')
-parser.add_argument('-s', '--suppress', action='store_true', help='Suppress output')
-parser.add_argument('-t', '--threading', action='store_true',
+parser.add_argument('-i', '--interval', type=int, default=1,
+                    help='Interval in seconds between tests')
+parser.add_argument('-c', '--count', type=int, default=1,
+                    help='Number of times to HTTP GET the URLs')
+parser.add_argument('-s', '--suppress', action='store_true', default=False, help='Suppress output')
+parser.add_argument('-t', '--threading', action='store_true', default=False,
                     help='Use threading to GET URLs. Implies "-s/--suppress". '\
-                        ' Default is serial mode.'
-)
+                    ' Default is serial mode.')
 
 
 if __name__ == '__main__':

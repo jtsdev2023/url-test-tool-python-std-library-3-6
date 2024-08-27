@@ -40,7 +40,8 @@ def validate_url_format(input_url):
         # _scheme = scheme_pattern.match(_url).group()
         # _domain = domain_pattern.search(_url).group()
         _scheme, _domain = url_split_pattern.split(_url)[0:2]
-        return _url, _scheme.strip(':'), _domain
+        # return _url, _scheme.strip(':'), _domain
+        return _scheme.strip(':'), _domain
     else:
         print(f"Error: URL \"{_url}\" is not in the correct format.")
         # return None, None, None
@@ -97,3 +98,13 @@ def request_url(input_url):
     except Exception as e:
         # print(f"Error: {e}")
         return 1, e
+
+
+# create file name
+# def create_file_name(url_domain):
+#     """Create file name"""
+#     return f"{url_domain}.txt"
+
+
+if __name__ == '__main__':
+    pass
