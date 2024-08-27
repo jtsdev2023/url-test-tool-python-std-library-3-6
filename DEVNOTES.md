@@ -7,4 +7,4 @@
   - COMPLETE: implemented using argparse custom action
 - ICANN/IANA TLD: thinking about scrapping this 'class' in favor
   of just using normal HTTP GET and write-to-file functions.
-
+- need to modularize the URL validation, URL request, and file writing portion of this
