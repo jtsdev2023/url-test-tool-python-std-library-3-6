@@ -6,6 +6,7 @@ This module contains utility functions for the main program.
 """
 
 
+import sys
 import re
 import urllib.request as request
 import urllib.error
@@ -41,8 +42,9 @@ def validate_url_format(input_url):
         _scheme, _domain = url_split_pattern.split(_url)[0:2]
         return _url, _scheme.strip(':'), _domain
     else:
-        print(f"Error: URL {_url} is not in the correct format.")
-        return None, None, None
+        print(f"Error: URL \"{_url}\" is not in the correct format.")
+        # return None, None, None
+        return 1
 
 
 # get ICANN/IANA TLD list
@@ -85,10 +87,13 @@ def request_url(input_url):
     """Request URL"""
     try:
         with request.urlopen(input_url) as response:
-            return response.read().decode('utf-8')
+            return response.status, response.read().decode('utf-8')
     except urllib.error.HTTPError as e:
-        print(f"HTTP Error: {e}")
+        # print(f"HTTP Error: {e}")
+        return 1, e
     except urllib.error.URLError as e:
-        print(f"URL Error: {e}")
+        # print(f"URL Error: {e}")
+        return 1, e
     except Exception as e:
-        print(f"Error: {e}")
+        # print(f"Error: {e}")
+        return 1, e
