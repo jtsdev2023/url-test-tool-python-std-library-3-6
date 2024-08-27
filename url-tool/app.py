@@ -25,22 +25,18 @@ def main():
             print("URL validation failed.")
             break
         else:
-            a, b, c = result
+            # a, b, c = result
             # trying to add security by changing tye to str
             # does this really do anything?
-            a, b, c = [ str(x) for x in [a, b, c] ]
-            print(f"{a} {b} {c}")
+            # a, b, c = [ str(x) for x in [a, b, c] ]
+            # print(f"{a} {b} {c}")
 
-            url_response = utility_module.request_url(a)
-            print( type(url_response[0]), type(url_response[1]) )
-            if isinstance(url_response[1], Exception):
-                print("error")
+            url_response = utility_module.request_url(url)
 
-        # response_data = utility_module.request_url(url)
-        # if response_data is not None:
-        #     print(response_data)
-        # else:
-        #     print(f"Error: No data returned from {url}")
+        if isinstance(url_response[1], Exception):
+            print(f"ERROR: {url_response[1]}")
+        else:
+            print(url_response[0], url_response[1])
 
 
 if __name__ == '__main__':
