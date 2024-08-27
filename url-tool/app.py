@@ -54,6 +54,8 @@ def main():
 
         for result in thread_results:
             # result.result() is a tuple (url, status, content)
+            # this 'url' does not necessarily match the original user input URL
+            # need to fix this
             url, status, content = result.result()
 
             url_result = utility_module.validate_url_format(url)
