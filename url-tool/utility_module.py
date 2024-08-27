@@ -88,7 +88,7 @@ def request_url(input_url):
     """Request URL"""
     try:
         with request.urlopen(input_url) as response:
-            return response.status, response.read().decode('utf-8')
+            return response.url, response.status, response.read().decode('utf-8')
     except urllib.error.HTTPError as e:
         # print(f"HTTP Error: {e}")
         return 1, e

@@ -20,23 +20,17 @@ def main():
         for url in args.url:
 
             loop_counter = 0
+
             while loop_counter < args.count:
                 loop_counter += 1
-                # url, _scheme, _domain = utility_module.validate_url_format(url)
-                # print(f"scheme: {_scheme}")
-                # print(f"domain: {_domain}")
-                result = utility_module.validate_url_format(url)
 
-                if isinstance(result, int) and result > 0:
+                url_result = utility_module.validate_url_format(url)
+
+                if isinstance(url_result, int) and url_result > 0:
                     print("URL validation failed.")
                     break
 
-                scheme, domain = result
-                # a, b, c = result
-                # trying to add security by changing tye to str
-                # does this really do anything?
-                # a, b, c = [ str(x) for x in [a, b, c] ]
-                # print(f"{a} {b} {c}")
+                scheme, domain = url_result
 
                 start_time_ns = time.perf_counter_ns()
                 url_response = utility_module.request_url(url)
@@ -44,19 +38,32 @@ def main():
                 elapsed_time_ms = round( (end_time_ns - start_time_ns) / 10e9, 3)
                 print(f"URL: {scheme}://{domain}\nElapsed time: {elapsed_time_ms:.3f} seconds")
 
-                # output_filename = utility_module.create_file_name(domain)
                 output_filename = domain.replace('.', '_')
 
                 with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
-                    f.write(f"HTTP Status Code: {url_response[0]}\n")
-                    f.write(f"Content:\n\n{url_response[1]}\n\n")
+                    f.write(f"URL: {url_response[0]}\n")
+                    f.write(f"HTTP Status Code: {url_response[1]}\n")
+                    f.write(f"Content:\n\n{url_response[2]}\n\n")
 
                 time.sleep(args.interval)
 
-        # if isinstance(url_response[1], Exception):
-        #     print(f"ERROR: {url_response[1]}")
-        # else:
-        #     print(url_response[0], url_response[1])
+    if args.threading is True:
+        with ThreadPoolExecutor() as executor:
+            thread_results = [
+                executor.submit(utility_module.request_url, url) for url in args.url]
+
+        for result in thread_results:
+            # result.result() is a tuple (url, status, content)
+            url, status, content = result.result()
+
+            url_result = utility_module.validate_url_format(url)
+            scheme, domain = url_result
+            output_filename = domain.replace('.', '_')
+
+            with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
+                f.write(f"URL: {url}\n")
+                f.write(f"HTTP Status Code: {status}\n")
+                f.write(f"Content:\n\n{content}\n\n")
 
 
 if __name__ == '__main__':
