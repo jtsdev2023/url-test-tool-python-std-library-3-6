@@ -30,7 +30,6 @@ def main():
                 # if isinstance(url_result, int) and url_result > 0:
                 if utility_module.validate_url_format(url) is False:
                     print("URL validation failed.")
-                    print("dog")
                     url = None
                     break
 
@@ -72,14 +71,9 @@ def main():
             # need to fix this
             url, status, content = result.result()
 
-            url_result = utility_module.validate_url_format(url)
-            scheme, domain = url_result
-            output_filename = domain.replace('.', '_')
-
-            with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
-                f.write(f"URL: {url}\n")
-                f.write(f"HTTP Status Code: {status}\n")
-                f.write(f"Content:\n\n{content}\n\n")
+            scheme, domain = utility_module.dissect_url(url)
+            transformed_domain = utility_module.transform_url_domain(domain)
+            utility_module.write_to_file_text(transformed_domain, url, status, content)
 
 
 if __name__ == '__main__':
