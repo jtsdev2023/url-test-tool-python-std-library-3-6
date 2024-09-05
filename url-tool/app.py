@@ -48,7 +48,7 @@ def main():
                 # print(f"URL: {scheme}://{domain}\nElapsed time: {elapsed_time_ms:.3f} seconds")
                 utility_module.write_to_stdout(url, status, elapsed_time_ms)
 
-                transformed_domain = utility_module.transform_domain(domain)
+                transformed_domain = utility_module.transform_url_domain(domain)
 
                 # with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
                 #     f.write(f"URL: {url_response[0]}\n")

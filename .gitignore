@@ -164,3 +164,4 @@ cython_debug/
 ## CUSTOM ENTRIES ##
 *.txt
 *.text
+*.csv
