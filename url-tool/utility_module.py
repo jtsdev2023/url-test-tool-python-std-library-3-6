@@ -15,37 +15,64 @@ import urllib.error
 # cli -u/--url parser
 # not going to do an excessive amount of validation here
 # will let urllib3 etc. error out if the URL is not valid
+# def validate_url_format(input_url):
+#     """Validate URL format"""
+#     # regex pattern for URL
+#     url_pattern_http = re.compile(r'^http://[\w\W]+\.[\w\W]+/?[\w\W]*')
+#     url_pattern_https = re.compile(r'^https://[\w\W]+\.[\w\W]+/?[\w\W]*')
+#     url_pattern = re.compile(r'^https?://[\w\W]+\.[\w\W]+/?[\w\W]*')
+
+#     scheme_pattern = re.compile(r'^https?://')
+#     domain_pattern = re.compile(r'[\w\W]+\.[\w\W]+/?')
+
+#     url_split_pattern = re.compile(r'/{1,2}')
+
+#     # does this add any security from remote code execution?
+#     _url = str( input_url ).strip()
+
+#     # at the moment, i don't think i want to process http and https separately
+#     # subject to change
+#     # if url_pattern_http.match(_url):
+#     #     pass
+#     # elif url_pattern_https.match(_url):
+#     #     pass
+#     if url_pattern.match(_url):
+#         # _scheme = scheme_pattern.match(_url).group()
+#         # _domain = domain_pattern.search(_url).group()
+#         _scheme, _domain = url_split_pattern.split(_url)[0:2]
+#         # return _url, _scheme.strip(':'), _domain
+#         return _url, _scheme.strip(':'), _domain
+#     else:
+#         print(f"Error: URL \"{_url}\" is not in the correct format.")
+#         # return None, None, None
+#         return 1
+
+
+# break validate_url_format into two functions... loosen coupling
+# validate
 def validate_url_format(input_url):
     """Validate URL format"""
     # regex pattern for URL
-    url_pattern_http = re.compile(r'^http://[\w\W]+\.[\w\W]+/?[\w\W]*')
-    url_pattern_https = re.compile(r'^https://[\w\W]+\.[\w\W]+/?[\w\W]*')
     url_pattern = re.compile(r'^https?://[\w\W]+\.[\w\W]+/?[\w\W]*')
 
-    scheme_pattern = re.compile(r'^https?://')
-    domain_pattern = re.compile(r'[\w\W]+\.[\w\W]+/?')
-
-    url_split_pattern = re.compile(r'/{1,2}')
-
-    # does this add any security from remote code execution?
     _url = str( input_url ).strip()
 
-    # at the moment, i don't think i want to process http and https separately
-    # subject to change
-    # if url_pattern_http.match(_url):
-    #     pass
-    # elif url_pattern_https.match(_url):
-    #     pass
     if url_pattern.match(_url):
-        # _scheme = scheme_pattern.match(_url).group()
-        # _domain = domain_pattern.search(_url).group()
-        _scheme, _domain = url_split_pattern.split(_url)[0:2]
-        # return _url, _scheme.strip(':'), _domain
-        return _scheme.strip(':'), _domain
+        return True
     else:
-        print(f"Error: URL \"{_url}\" is not in the correct format.")
-        # return None, None, None
-        return 1
+        return False
+
+
+# manipulate... assumes a good URL
+def dissect_url(input_url):
+    """Dissect URL into scheme and domain"""
+    url_split_pattern = re.compile(r'/{1,2}')
+
+    _url = str( input_url ).strip()
+
+    _scheme, _domain = url_split_pattern.split(_url)[0:2]
+    return _scheme.strip(':'), _domain
+
 
 
 # get ICANN/IANA TLD list
@@ -100,10 +127,11 @@ def request_url(input_url):
         return 1, e
 
 
-# create file name
-# def create_file_name(url_domain):
-#     """Create file name"""
-#     return f"{url_domain}.txt"
+# transform URL domain... replace '.' with '_'
+def transform_url_domain(url_domain):
+    """Transform URL domain. Replace '.' with '_'"""
+    # can URL domain contain more than one '.' or special characters ?
+    return url_domain.replace('.', '_')
 
 
 if __name__ == '__main__':

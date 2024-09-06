@@ -6,10 +6,11 @@ This module is used to run the URL test tool.
 """
 
 
+
 import time
+from concurrent.futures import ThreadPoolExecutor
 import utility_module                                       # pylint: disable=import-error
 import argparse_module                                      # pylint: disable=import-error
-from concurrent.futures import ThreadPoolExecutor
 
 
 def main():
