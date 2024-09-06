@@ -25,26 +25,39 @@ def main():
             while loop_counter < args.count:
                 loop_counter += 1
 
-                url_result = utility_module.validate_url_format(url)
-
-                if isinstance(url_result, int) and url_result > 0:
+                # url_result = utility_module.validate_url_format(url)
+                print(f"URL: {url}")
+                # if isinstance(url_result, int) and url_result > 0:
+                if utility_module.validate_url_format(url) is False:
                     print("URL validation failed.")
+                    print("dog")
+                    url = None
                     break
 
-                scheme, domain = url_result
+                elif utility_module.validate_url_format(url) is True:
+                    scheme, domain = utility_module.dissect_url(url)
 
+                timestamp = time.strftime('%H:%M:%S')
                 start_time_ns = time.perf_counter_ns()
-                url_response = utility_module.request_url(url)
+
+                url, status, content = utility_module.request_url(url)
+
                 end_time_ns = time.perf_counter_ns()
                 elapsed_time_ms = round( (end_time_ns - start_time_ns) / 10e9, 3)
-                print(f"URL: {scheme}://{domain}\nElapsed time: {elapsed_time_ms:.3f} seconds")
 
-                output_filename = domain.replace('.', '_')
+                # print(f"URL: {scheme}://{domain}\nElapsed time: {elapsed_time_ms:.3f} seconds")
+                utility_module.write_to_stdout(url, status, elapsed_time_ms)
 
-                with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
-                    f.write(f"URL: {url_response[0]}\n")
-                    f.write(f"HTTP Status Code: {url_response[1]}\n")
-                    f.write(f"Content:\n\n{url_response[2]}\n\n")
+                transformed_domain = utility_module.transform_domain(domain)
+
+                # with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
+                #     f.write(f"URL: {url_response[0]}\n")
+                #     f.write(f"HTTP Status Code: {url_response[1]}\n")
+                #     f.write(f"Content:\n\n{url_response[2]}\n\n")
+
+                utility_module.write_to_file_text(transformed_domain, url, status, content)
+                utility_module.write_to_file_csv(
+                    transformed_domain, domain, timestamp, elapsed_time_ms)
 
                 time.sleep(args.interval)
 
