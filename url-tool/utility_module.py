@@ -134,5 +134,33 @@ def transform_url_domain(url_domain):
     return url_domain.replace('.', '_')
 
 
+# write to text file
+def write_to_file_text(output_filename, url, status, content):
+    """Write to text file"""
+    with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
+        f.write(f"URL: {url}\n")
+        f.write(f"HTTP Status Code: {status}\n")
+        f.write(f"Content:\n\n{content}\n\n")
+
+
+
+# write to csv file
+def write_to_file_csv(output_filename, url_domain, timestamp, elapsed_time_ms):
+    """Write to CSV file"""
+    with open(f'{output_filename}.csv', 'a', encoding='utf-8') as f:
+        f.write(f"{url_domain},{timestamp},{elapsed_time_ms}\n")
+
+
+# write to stdout
+def write_to_stdout(url, http_status, elapsed_time_ms):
+    """Write to stdout"""
+    print(
+        f"\nURL: {url}\n"
+        f"HTTP Status Code: {http_status}\n"
+        f"Elapsed time: {elapsed_time_ms:.3f} seconds"
+    )
+
+
+
 if __name__ == '__main__':
     pass
