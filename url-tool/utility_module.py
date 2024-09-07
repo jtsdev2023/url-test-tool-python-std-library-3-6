@@ -138,10 +138,11 @@ def transform_url_domain(url_domain):
 def write_to_file_text(output_filename, url, status, content):
     """Write to text file"""
     with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
+        f.write("\n****************************************\n")
         f.write(f"URL: {url}\n")
         f.write(f"HTTP Status Code: {status}\n")
         f.write(f"Content:\n\n{content}\n\n")
-
+        f.write("\n****************************************\n")
 
 
 # write to csv file
