@@ -82,14 +82,12 @@ def main():
 if __name__ == '__main__':
     args = argparse_module.parser.parse_args()
 
-    run = get_url_module.RunGetURL(
-        args.url, args.interval, args.count, args.threading, args.suppress)
-
     if args.threading is False:
-        run.run_serial_get_url()
+        get_url_module.run(args.url, args.interval, args.count, args.threading, args.suppress)
 
     elif args.threading is True:
-        get_url_module.run_multi_threading(args.url, args.interval, args.count)
+        get_url_module.run_multi_threading(
+            args.url, args.interval, args.count, args.threading, args.suppress)
 
     # main()
 
