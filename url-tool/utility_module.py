@@ -75,39 +75,39 @@ def dissect_url(input_url):
 
 
 
-# get ICANN/IANA TLD list
-class IANATopLevelDomain:
-    """Class to handle ICANN/IANA top level domain (TLD) list tasks"""
-    def __init__(self):
-        self._url = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt'
-        self._url_data = None
-        self._tld_list = []
-        self._tld_list_file = 'tld_list.txt'
+# # get ICANN/IANA TLD list
+# class IANATopLevelDomain:
+#     """Class to handle ICANN/IANA top level domain (TLD) list tasks"""
+#     def __init__(self):
+#         self._url = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt'
+#         self._url_data = None
+#         self._tld_list = []
+#         self._tld_list_file = 'tld_list.txt'
 
-    def retrieve_tld_list(self):
-        """Retrieve TLD list"""
-        try:
-            with request.urlopen(self._url) as response:
-                self._url_data = response.read().decode('utf-8')
-                self._tld_list = response.read().decode('utf-8').splitlines()
-        except urllib.error.HTTPError as e:
-            print(f"HTTP Error: {e}")
-        except urllib.error.URLError as e:
-            print(f"URL Error: {e}")
-        except Exception as e:
-            print(f"Error: {e}")
-        else:
-            return self._tld_list
+#     def retrieve_tld_list(self):
+#         """Retrieve TLD list"""
+#         try:
+#             with request.urlopen(self._url) as response:
+#                 self._url_data = response.read().decode('utf-8')
+#                 self._tld_list = response.read().decode('utf-8').splitlines()
+#         except urllib.error.HTTPError as e:
+#             print(f"HTTP Error: {e}")
+#         except urllib.error.URLError as e:
+#             print(f"URL Error: {e}")
+#         except Exception as e:
+#             print(f"Error: {e}")
+#         else:
+#             return self._tld_list
 
-    def write_tld_list(self):
-        """Write TLD list to file"""
-        if self._url_data is not None:
-            with open(self._tld_list_file, 'w', encoding='utf-8') as file:
-                for line in self._tld_list:
-                    file.write(f"{line}\n")
-            return self._tld_list_file
-        if self._url_data is None:
-            print("Error: No IANA Top Level Domain (TLD) data to write to file.")
+#     def write_tld_list(self):
+#         """Write TLD list to file"""
+#         if self._url_data is not None:
+#             with open(self._tld_list_file, 'w', encoding='utf-8') as file:
+#                 for line in self._tld_list:
+#                     file.write(f"{line}\n")
+#             return self._tld_list_file
+#         if self._url_data is None:
+#             print("Error: No IANA Top Level Domain (TLD) data to write to file.")
 
 
 # get URL
