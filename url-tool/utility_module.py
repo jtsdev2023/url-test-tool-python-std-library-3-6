@@ -43,7 +43,7 @@ def request_url(input_url):
     """Request URL"""
     try:
         with request.urlopen(input_url) as response:
-            return response.url, response.status, response.read().decode('utf-8')
+            return response.status, response.read().decode('utf-8')
     except urllib.error.HTTPError as e:
         # print(f"HTTP Error: {e}")
         return 1, e
@@ -63,9 +63,9 @@ def transform_url_domain(url_domain):
 
 
 # write to text file
-def write_to_file_text(output_filename, url, status, content):
+def write_to_file_text(url_domain, url, status, content):
     """Write to text file"""
-    with open(f'{output_filename}.txt', 'a', encoding='utf-8') as txt_f:
+    with open(f'{url_domain}.txt', 'a', encoding='utf-8') as txt_f:
         txt_f.write("\n****************************************\n")
         txt_f.write(f"URL: {url}\n")
         txt_f.write(f"HTTP Status Code: {status}\n")
@@ -74,9 +74,9 @@ def write_to_file_text(output_filename, url, status, content):
 
 
 # write to csv file
-def write_to_file_csv(output_filename, url_domain, timestamp, elapsed_time_ms):
+def write_to_file_csv(url_domain, timestamp, elapsed_time_ms):
     """Write to CSV file"""
-    with open(f'{output_filename}.csv', 'a', encoding='utf-8') as csv_f:
+    with open(f'{url_domain}.csv', 'a', encoding='utf-8') as csv_f:
         csv_f.write(f"{url_domain},{timestamp},{elapsed_time_ms}\n")
 
 
@@ -88,7 +88,6 @@ def write_to_stdout(url, http_status, elapsed_time_ms):
         f"HTTP Status Code: {http_status}\n"
         f"Elapsed time: {elapsed_time_ms:.3f} seconds\n"
     )
-
 
 
 if __name__ == '__main__':
