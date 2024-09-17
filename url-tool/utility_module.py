@@ -6,10 +6,11 @@ This module contains utility functions for the main program.
 """
 
 
-import sys
 import re
-import urllib.request as request
+import sys
 import urllib.error
+import urllib.request as request
+from concurrent.futures import ThreadPoolExecutor
 
 
 # break validate_url_format into two functions... loosen coupling
@@ -44,7 +45,7 @@ def dissect_url(input_url):
 def request_url(input_url):
     """Request URL"""
     try:
-        with request.urlopen(input_url) as response:
+        with request.urlopen(input_url, timeout=5) as response:
             return response.status, response.read().decode('utf-8')
     except urllib.error.HTTPError as e:
         # print(f"HTTP Error: {e}")
@@ -93,6 +94,31 @@ def write_to_stdout(url, http_status, elapsed_time_ms):
         f"HTTP Status Code: {http_status}\n"
         f"Elapsed time: {elapsed_time_ms:.3f} seconds\n"
     )
+
+
+
+# read url from file
+def read_url_from_file(file_name):
+    """Read URLs from a file"""
+    with open(file_name, 'r', encoding='utf-8') as f:
+        return [ line.strip() for line in f if line.strip() ]
+
+
+
+def write_to_file_threading(result_list):
+    """Write multithread results to text and csv files"""
+
+    # result_list structure
+    # list[ list[tuple(str, str, str, str, str, str), ...] ]
+    # (domain: str, url: str, status:str, content:str, timestamp:str, elapsed_time_ms:str)
+    for result in result_list:
+        with ThreadPoolExecutor() as executor:
+            for r in result:
+                executor.submit(
+                    write_to_file_text, r[0], r[1], r[2], r[3] )
+
+                executor.submit(
+                    write_to_file_csv, r[0], r[4], r[5] )
 
 
 

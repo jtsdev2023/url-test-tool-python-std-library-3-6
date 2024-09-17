@@ -64,9 +64,6 @@ def run_multi_threading(url_list, interval, count, threading, suppress):
         result = [
             executor.submit(run, url, interval, count, threading, suppress) for url in url_list]
 
-    # is indexing the list comprehension pythonic? should use a for-loop instead?
-    # without index 0, [r.result() for r in result][0], this returns a nested list...
-    # [ [ (tuple), (tuple), ... ] ]
     result_list = [r.result() for r in result]
 
     end_time_ns = time.perf_counter_ns()
@@ -74,25 +71,10 @@ def run_multi_threading(url_list, interval, count, threading, suppress):
 
     print(f"\n\nMultithreading Module Elapsed Run Time: {elapsed_time_ms:.3f} seconds.\n\n")
 
-    return result_list
-
-
-
-# handle threading results
-def write_to_file_threading(result_list):
-    """Write to text and csv files in threading"""
-
-    # result structure
-    # list[tuple(str, str, str, str, str, str), ...]
+    # result_list structure
+    # list[ list[tuple(str, str, str, str, str, str), ...] ]
     # (domain: str, url: str, status:str, content:str, timestamp:str, elapsed_time_ms:str)
-    for result in result_list:
-        with ThreadPoolExecutor() as executor:
-            for r in result:
-                executor.submit(
-                    utility_module.write_to_file_text, r[0], r[1], r[2], r[3] )
-
-                executor.submit(
-                    utility_module.write_to_file_csv, r[0], r[4], r[5] )
+    return result_list
 
 
 

@@ -26,6 +26,7 @@ parser = argparse.ArgumentParser(
     epilog='Thank you for using the URL test tool!'
 )
 
+
 # group to exclude using inline URL list or URL list file at same time
 exclude_group_url_inline_file = parser.add_mutually_exclusive_group(required=True)
 # -u/--url is limited to 6 inline URLs
@@ -33,6 +34,7 @@ exclude_group_url_inline_file.add_argument(
     '-u', '--url', type=str, nargs='+', help='URLs to test', action=URLMaxNargs)
 exclude_group_url_inline_file.add_argument(
     '-f', '--file', type=str, help='File containing URLs to test. Limit 1 file name.')
+
 
 # normal arguments
 parser.add_argument(
