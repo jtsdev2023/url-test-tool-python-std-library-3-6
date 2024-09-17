@@ -14,18 +14,18 @@ import utility_module                                      # pylint: disable=imp
 # functions
 def run(url, interval, count, threading, suppress):
     """Run serial mode. Print to stdout and write to text and csv files"""
-    loop_counter = 1
 
-    while loop_counter <= count:
-        loop_counter += 1
+    thread_results = []
+
+    while count > 0:
 
         if utility_module.validate_url_format(url) is False:
             print(url)
             print("URL validation failed.")
             url = None
             break
-        else:
-            scheme, domain = utility_module.dissect_url(url)
+
+        scheme, domain = utility_module.dissect_url(url)
 
         timestamp = time.strftime('%H:%M:%S')
         start_time_ns = time.perf_counter_ns()
@@ -40,12 +40,20 @@ def run(url, interval, count, threading, suppress):
 
         transformed_domain = utility_module.transform_url_domain(domain)
 
-
-        if suppress is False:
+        if suppress is False and threading is False:
             utility_module.write_to_file_text(transformed_domain, url, status, content)
             utility_module.write_to_file_csv(transformed_domain, domain, timestamp, elapsed_time_ms)
 
+        elif threading is True:
+            thread_results.append(
+                transformed_domain, url, status, content, timestamp, elapsed_time_ms)
+
+        count -= 1
+
         time.sleep(interval)
+
+    if len(thread_results) > 0:
+        return thread_results
 
 
 # def run(url, count):

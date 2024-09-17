@@ -15,7 +15,7 @@ if __name__ == '__main__':
     args = argparse_module.parser.parse_args()
 
     if args.threading is True:
-        get_url_module.run_multi_threading(
+        r = get_url_module.run_multi_threading(
             args.url, args.interval, args.count, args.threading, args.suppress)
 
     else:

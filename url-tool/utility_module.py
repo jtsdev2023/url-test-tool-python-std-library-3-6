@@ -65,19 +65,19 @@ def transform_url_domain(url_domain):
 # write to text file
 def write_to_file_text(output_filename, url, status, content):
     """Write to text file"""
-    with open(f'{output_filename}.txt', 'a', encoding='utf-8') as f:
-        f.write("\n****************************************\n")
-        f.write(f"URL: {url}\n")
-        f.write(f"HTTP Status Code: {status}\n")
-        f.write(f"Content:\n\n{content}\n\n")
-        f.write("\n****************************************\n")
+    with open(f'{output_filename}.txt', 'a', encoding='utf-8') as txt_f:
+        txt_f.write("\n****************************************\n")
+        txt_f.write(f"URL: {url}\n")
+        txt_f.write(f"HTTP Status Code: {status}\n")
+        txt_f.write(f"Content:\n\n{content}\n\n")
+        txt_f.write("\n****************************************\n")
 
 
 # write to csv file
 def write_to_file_csv(output_filename, url_domain, timestamp, elapsed_time_ms):
     """Write to CSV file"""
-    with open(f'{output_filename}.csv', 'a', encoding='utf-8') as f:
-        f.write(f"{url_domain},{timestamp},{elapsed_time_ms}\n")
+    with open(f'{output_filename}.csv', 'a', encoding='utf-8') as csv_f:
+        csv_f.write(f"{url_domain},{timestamp},{elapsed_time_ms}\n")
 
 
 # write to stdout
