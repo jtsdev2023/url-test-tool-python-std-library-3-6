@@ -14,10 +14,10 @@ import get_url_module                                       # pylint: disable=im
 if __name__ == '__main__':
     args = argparse_module.parser.parse_args()
 
-    if args.threading is False:
-        for url in args.url:
-            get_url_module.run(url, args.interval, args.count, args.threading, args.suppress)
-
-    elif args.threading is True:
+    if args.threading is True:
         get_url_module.run_multi_threading(
             args.url, args.interval, args.count, args.threading, args.suppress)
+
+    else:
+        for url in args.url:
+            get_url_module.run(url, args.interval, args.count, args.threading, args.suppress)

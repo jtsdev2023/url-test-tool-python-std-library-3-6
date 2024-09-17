@@ -18,7 +18,7 @@ class URLMaxNargs(argparse.Action):
 
 
 parser = argparse.ArgumentParser(
-    prog='url-tool',
+    prog='app.py',
     description=(
     'URL test tool using only the Python standard '
     'library and backwards compatible with Python 3.6'),
@@ -34,14 +34,18 @@ exclude_group_url_inline_file.add_argument(
     '-f', '--file', type=str, help='File containing URLs to test. Limit 1 file name.')
 
 # normal arguments
-parser.add_argument('-i', '--interval', type=int, default=1,
-                    help='Interval in seconds between tests')
-parser.add_argument('-c', '--count', type=int, default=1,
-                    help='Number of times to HTTP GET the URLs')
-parser.add_argument('-s', '--suppress', action='store_true', default=False, help='Suppress output')
-parser.add_argument('-t', '--threading', action='store_true', default=False,
-                    help='Use threading to GET URLs. Implies "-s/--suppress". '\
-                    ' Default is serial mode.')
+parser.add_argument(
+    '-i', '--interval', type=int, default=1, help='Interval in seconds between tests')
+parser.add_argument(
+    '-c', '--count', type=int, default=1, help='Number of times to HTTP GET the URLs')
+parser.add_argument(
+    '-s', '--suppress', action='store_true', default=False, help='Suppress file output')
+parser.add_argument(
+    '-t', '--threading', action='store_true', default=False,
+    help='Use threading to GET URLs. Implies "-s/--suppress". Default is serial mode.')
+parser.add_argument(
+    '--no-stdout', action='store_true', default=False, \
+    help='Suppress stdout. Implies "-t/--threading".')
 
 
 if __name__ == '__main__':
