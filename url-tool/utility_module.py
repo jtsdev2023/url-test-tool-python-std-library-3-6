@@ -27,6 +27,7 @@ def validate_url_format(input_url):
         return False
 
 
+
 # manipulate... assumes a good URL
 def dissect_url(input_url):
     """Dissect URL into scheme and domain"""
@@ -36,6 +37,7 @@ def dissect_url(input_url):
 
     _scheme, _domain = url_split_pattern.split(_url)[0:2]
     return _scheme.strip(':'), _domain
+
 
 
 # get URL
@@ -62,6 +64,7 @@ def transform_url_domain(url_domain):
     return url_domain.replace('.', '_')
 
 
+
 # write to text file
 def write_to_file_text(url_domain, url, status, content):
     """Write to text file"""
@@ -73,11 +76,13 @@ def write_to_file_text(url_domain, url, status, content):
         txt_f.write("\n****************************************\n")
 
 
+
 # write to csv file
 def write_to_file_csv(url_domain, timestamp, elapsed_time_ms):
     """Write to CSV file"""
     with open(f'{url_domain}.csv', 'a', encoding='utf-8') as csv_f:
         csv_f.write(f"{url_domain},{timestamp},{elapsed_time_ms}\n")
+
 
 
 # write to stdout
@@ -88,6 +93,7 @@ def write_to_stdout(url, http_status, elapsed_time_ms):
         f"HTTP Status Code: {http_status}\n"
         f"Elapsed time: {elapsed_time_ms:.3f} seconds\n"
     )
+
 
 
 if __name__ == '__main__':

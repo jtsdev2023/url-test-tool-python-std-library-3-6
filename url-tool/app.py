@@ -15,8 +15,14 @@ if __name__ == '__main__':
     args = argparse_module.parser.parse_args()
 
     if args.threading is True:
-        r = get_url_module.run_multi_threading(
+        # result structure
+        # list[tuple(str, str, str, str, str, str), ...]
+        # (domain: str, url: str, status:str, content:str, timestamp:str, elapsed_time_ms:str)
+        result_list = get_url_module.run_multi_threading(
             args.url, args.interval, args.count, args.threading, args.suppress)
+
+        get_url_module.write_to_file_threading(result_list)
+
 
     else:
         for url in args.url:
