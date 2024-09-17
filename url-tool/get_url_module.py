@@ -64,15 +64,15 @@ def run_multi_threading(url_list, interval, count, threading, suppress):
         result = [
             executor.submit(run, url, interval, count, threading, suppress) for url in url_list]
 
-    end_time_ns = time.perf_counter_ns()
-    elapsed_time_ms = round( (end_time_ns - start_time_ns) / 10e9, 3)
-
-    print(f"\n\nMultithreading Module Elapsed Run Time: {elapsed_time_ms:.3f} seconds.\n\n")
-
     # is indexing the list comprehension pythonic? should use a for-loop instead?
     # without index 0, [r.result() for r in result][0], this returns a nested list...
     # [ [ (tuple), (tuple), ... ] ]
     result_list = [r.result() for r in result]
+
+    end_time_ns = time.perf_counter_ns()
+    elapsed_time_ms = round( (end_time_ns - start_time_ns) / 10e9, 3)
+
+    print(f"\n\nMultithreading Module Elapsed Run Time: {elapsed_time_ms:.3f} seconds.\n\n")
 
     return result_list
 

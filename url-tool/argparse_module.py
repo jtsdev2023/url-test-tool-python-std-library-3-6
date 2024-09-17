@@ -13,7 +13,8 @@ class URLMaxNargs(argparse.Action):
     """argparse action to limit the number of URLs"""
     def __call__(self, parser, namespace, input_values, option_string=None):
         if len(input_values) > 6:
-            parser.error(f'{option_string} accepts a maximum of 6 URLs')
+            parser.error(f'{option_string} accepts a maximum of 6 URLs. '
+                         'Use read from file mode -f/--file to specify more URLs.')
         setattr(namespace, self.dest, input_values)
 
 

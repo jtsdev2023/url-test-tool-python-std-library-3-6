@@ -14,12 +14,14 @@ import get_url_module                                       # pylint: disable=im
 if __name__ == '__main__':
     args = argparse_module.parser.parse_args()
 
-    if args.threading is True:
+
+    if args.threading is True or args.no_stdout is True:
+        THREADING = True
         # result structure
         # list[tuple(str, str, str, str, str, str), ...]
         # (domain: str, url: str, status:str, content:str, timestamp:str, elapsed_time_ms:str)
         result_list = get_url_module.run_multi_threading(
-            args.url, args.interval, args.count, args.threading, args.suppress)
+            args.url, args.interval, args.count, THREADING, args.suppress)
 
         get_url_module.write_to_file_threading(result_list)
 
