@@ -11,9 +11,9 @@ import argparse
 
 class URLMaxNargs(argparse.Action):
     """argparse action to limit the number of URLs"""
-    def __call__(self, parser, namespace, input_values, option_string=None):
+    def __call__(self, class_parser, namespace, input_values, option_string=None):
         if len(input_values) > 6:
-            parser.error(f'{option_string} accepts a maximum of 6 URLs. '
+            class_parser.error(f'{option_string} accepts a maximum of 6 URLs. '
                          'Use read from file mode -f/--file to specify more URLs.')
         setattr(namespace, self.dest, input_values)
 
@@ -36,6 +36,14 @@ exclude_group_url_inline_file.add_argument(
     '-f', '--file', type=str, help='File containing URLs to test. Limit 1 file name.')
 
 
+# # group to exclude using -s/--suppress and -o/--output at same time
+# exclude_group_suppress_output = parser.add_mutually_exclusive_group(required=False)
+# exclude_group_suppress_output.add_argument(
+#     '-s', '--suppress', action='store_true', default=False, help='Suppress file output')
+# exclude_group_suppress_output.add_argument(
+#     '-p', '--path', type=str, help='File path to output file. Path only no file name.')
+
+
 # normal arguments
 parser.add_argument(
     '-i', '--interval', type=int, default=1, help='Interval in seconds between tests')
@@ -49,6 +57,9 @@ parser.add_argument(
 parser.add_argument(
     '--no-stdout', action='store_true', default=False, \
     help='Suppress stdout. Implies "-t/--threading".')
+# parser.add_argument(
+#     '-p', '--path', type=str, default='.', \
+#         help='File path to output file. Path only no file name.')
 
 
 if __name__ == '__main__':

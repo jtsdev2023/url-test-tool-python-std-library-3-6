@@ -7,7 +7,6 @@ This module contains utility functions for the main program.
 
 
 import re
-import sys
 import urllib.error
 import urllib.request as request
 from concurrent.futures import ThreadPoolExecutor
@@ -45,7 +44,7 @@ def dissect_url(input_url):
 def request_url(input_url):
     """Request URL"""
     try:
-        with request.urlopen(input_url, timeout=5) as response:
+        with request.urlopen(input_url, timeout=15) as response:
             return response.status, response.read().decode('utf-8')
     except urllib.error.HTTPError as e:
         # print(f"HTTP Error: {e}")
@@ -53,9 +52,9 @@ def request_url(input_url):
     except urllib.error.URLError as e:
         # print(f"URL Error: {e}")
         return 1, e
-    except Exception as e:
-        # print(f"Error: {e}")
-        return 1, e
+    # except Exception as e:
+    #     # print(f"Error: {e}")
+    #     return 1, e
 
 
 # transform URL domain... replace '.' with '_'

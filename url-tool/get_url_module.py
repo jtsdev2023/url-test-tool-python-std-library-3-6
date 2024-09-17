@@ -17,8 +17,8 @@ def run(url, interval, count, threading, suppress):
 
     thread_results = []
 
-    # scheme unused at this time
-    scheme, domain = utility_module.dissect_url(url)
+    # URL scheme unused at this time so assign to _ for clarity
+    _, domain = utility_module.dissect_url(url)
 
     while count > 0:
 
